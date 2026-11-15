@@ -1,9 +1,9 @@
 /* P041 Hotcoal Kitchen, best-4 flagship build (Oct 30 2026). Desktop layout + every shared token and component.
    Palette: flour, basil, tomato and their flat tints only (no black, no purple, no gradient fills). Fonts: SIL OFL 1.1, self-hosted. */
-@font-face{font-family:"Fraunces";src:url("assets/font/fraunces-axes.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
-@font-face{font-family:"Fraunces";src:url("assets/font/fraunces-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
-@font-face{font-family:"Inter Tight";src:url("assets/font/intertight-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
-@font-face{font-family:"JetBrains Mono";src:url("assets/font/jetbrainsmono-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("../../../assets/font/fraunces-axes.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("../../../assets/font/fraunces-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Inter Tight";src:url("../../../assets/font/intertight-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../../_kit/font/jetbrainsmono-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Fraunces fallback";src:local("Georgia");size-adjust:104%;ascent-override:94%}
 @font-face{font-family:"Inter Tight fallback";src:local("Arial");size-adjust:95%}
 :root{

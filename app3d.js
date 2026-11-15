@@ -175,9 +175,3 @@ if (form) form.addEventListener('submit', (e) => {
 });
 $('#od-again')?.addEventListener('click', () => { form.hidden = false; $('#od-ok').hidden = true; form.reset(); });
 const hrs = $('#hours'); if (hrs) { const d = new Date().getDay(); $$('tr', hrs).forEach((tr) => tr.classList.toggle('today', tr.dataset.d.split(',').map(Number).includes(d))); }
-
-/* standalone fix: the library shell used to reveal [data-rv]; app3d.js never did, so the pickup section stayed invisible. */
-const rvEls = $$('[data-rv]');
-if (reduced || !('IntersectionObserver' in window)) rvEls.forEach((e) => e.classList.add('in'));
-else { const rvIO = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); rvIO.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
-  rvEls.forEach((e) => { const sib = [...e.parentElement.children].filter((c) => c.hasAttribute('data-rv')); e.style.setProperty('--i', Math.min(sib.indexOf(e), 6)); rvIO.observe(e); }); }
