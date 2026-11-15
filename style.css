@@ -1,9 +1,9 @@
 /* P041 Hotcoal Kitchen, best-4 flagship build (Oct 30 2026). Desktop layout + every shared token and component.
    Palette: flour, basil, tomato and their flat tints only (no black, no purple, no gradient fills). Fonts: SIL OFL 1.1, self-hosted. */
-@font-face{font-family:"Fraunces";src:url("../../../assets/font/fraunces-axes.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
-@font-face{font-family:"Fraunces";src:url("../../../assets/font/fraunces-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
-@font-face{font-family:"Inter Tight";src:url("../../../assets/font/intertight-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
-@font-face{font-family:"JetBrains Mono";src:url("../../_kit/font/jetbrainsmono-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("assets/font/fraunces-axes.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Fraunces";src:url("assets/font/fraunces-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Inter Tight";src:url("assets/font/intertight-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("assets/font/jetbrainsmono-400.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Fraunces fallback";src:local("Georgia");size-adjust:104%;ascent-override:94%}
 @font-face{font-family:"Inter Tight fallback";src:local("Arial");size-adjust:95%}
 :root{
@@ -167,6 +167,13 @@ html.js .sparks.go i{animation:spark 1.2s var(--ease-out) forwards}
 .chips span{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;border:1px solid var(--basil-2);font-weight:500;font-size:.95rem;cursor:pointer;transition:background-color var(--dur-fast),color var(--dur-fast)}
 .chips input:checked+span{background:var(--tomato);border-color:var(--tomato);color:var(--flour)}
 .chips input:focus-visible+span{outline:3px solid var(--tomato);outline-offset:2px}
+
+/* standalone fix: app3d.js builds .chip buttons; the stylesheet only styled the library's label+input pattern */
+.chips .chip{display:inline-flex;align-items:center;min-height:48px;padding:0 18px;border-radius:999px;border:1px solid var(--basil-2);background:transparent;color:inherit;font:500 .95rem/1 var(--f-body);cursor:pointer;transition:background-color var(--dur-fast),color var(--dur-fast),border-color var(--dur-fast)}
+.chips .chip:hover{border-color:var(--tomato)}
+.chips .chip[aria-pressed="true"]{background:var(--tomato);border-color:var(--tomato);color:var(--flour)}
+.chips .chip:focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
+
 .submit-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:8px}
 .form-note{font-size:.875rem;color:var(--basil-2)}
 .spin{width:16px;height:16px;border-radius:50%;border:2px solid rgba(244,237,225,.35);border-top-color:var(--flour);display:none;animation:spin .8s linear infinite}
