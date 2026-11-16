@@ -49,7 +49,7 @@ else {
     for (const el of GUARD) {
       const r = el.getBoundingClientRect(); let al = 1;
       if (r.bottom > 0 && r.top < Hh && x1 > x0) { const ox = Math.min(r.right, x1 + pad) - Math.max(r.left, x0 - pad), oy = Math.min(r.bottom, y1 + pad) - Math.max(r.top, y0 - pad);
-        if (ox > 0 && r.top < y1 + pad && (phone || r.bottom > y0 - pad)) { const cover = clamp01((ox - r.width * 0.3) / (r.width * 0.3)); al = 1 - clamp01((y1 + pad - r.top) / 56) * cover; } }
+        if (ox > 0 && r.top < y1 + pad + 56 && (phone || r.bottom > y0 - pad)) { const cover = clamp01((ox - r.width * 0.3) / (r.width * 0.3)); al = 1 - (1 - clamp01((r.top - y1 - pad) / 56)) * cover; } }
       const prev = gAlpha.get(el) ?? 1; if (Math.abs(prev - al) < 0.01) continue; gAlpha.set(el, al);
       el.style.opacity = al < 0.999 ? al.toFixed(3) : ''; el.style.visibility = al < 0.02 ? 'hidden' : '';
       if (al < 0.999) window.__guard.hits++;
