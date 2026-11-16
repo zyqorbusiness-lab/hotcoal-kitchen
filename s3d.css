@@ -101,7 +101,7 @@ main{position:relative;z-index:1}
   /* the card is a flex column: the ticket stays in flow at the card's bottom edge (always
      visible, never overlapping), and only the ingredient grid absorbs any shortage by
      scrolling - so no state (cleared, 8 toppings, fired) can hide chips behind the ticket. */
-  .make-copy{display:flex;flex-direction:column;max-height:calc(63svh - 28px)}
+  .make-copy{display:flex;flex-direction:column;max-height:calc(63svh - 18px)}
   .make-copy{width:100%;padding:14px 18px;border-radius:22px}
   .make-copy .d-l{font-size:1.45rem;margin:.3rem 0}
   .make-copy .tag{margin-bottom:.1rem}
