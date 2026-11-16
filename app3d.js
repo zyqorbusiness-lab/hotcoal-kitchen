@@ -74,6 +74,7 @@ else {
     if (m === 'make') { useUser(); } else if (prev === 'make' || prev === '') { useStory(); }
     oven.group.visible = m === 'fire'; st.floor.visible = m !== 'fire';
     st.emberMat.uniforms.uAmt.value = m === 'hero' ? 0.9 : m === 'fire' ? 1 : 0.25;
+    st.flagShadows(); /* oven/floor visibility toggles change the casters */
   }
   const H = $('#hero'), S = $('#story'), F = $('#fire'), M = $('#make'), REAL = $('#real');
   const prog = (el) => { const r = el.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, el.offsetHeight - innerHeight)); };

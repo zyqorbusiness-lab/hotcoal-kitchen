@@ -66,7 +66,7 @@ function leafGeometry(aspect, bend) {
 export async function createStage(opt) {
   const { canvas, img = 'img/', phone = false, extras = {}, board: showBoard = true } = opt;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let dirty = true, running = true, last = performance.now(); const tickers = [];
+  let dirty = true, running = true, last = performance.now(), emberAlt = 0; const tickers = [];
   function invalidate() { dirty = true; }
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   const dprCap = phone ? 1.75 : 2;
@@ -74,6 +74,9 @@ export async function createStage(opt) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  /* perf: the shadow-casting geometry (pizza pieces, oven, peel) only changes when updateMatrices
+     runs or a mode toggles visibility, so do not re-render the shadow map every frame. */
+  renderer.shadowMap.autoUpdate = false; let shadowDirty = true;
   const scene = new THREE.Scene();
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture; scene.environmentIntensity = 0.55;
@@ -265,6 +268,7 @@ export async function createStage(opt) {
       if (a < 1 && a > 0) moving = true;
     }
     for (const kind in groups) groups[kind].forEach((m) => (m.instanceMatrix.needsUpdate = true));
+    shadowDirty = true;
     return moving;
   }
 
@@ -329,9 +333,12 @@ export async function createStage(opt) {
     cam.pos.lerp(cam.tPos, k); cam.look.lerp(cam.tLook, k); cam.shift.x = lerp(cam.shift.x, cam.tShift.x, k); cam.shift.y = lerp(cam.shift.y, cam.tShift.y, k);
     if (cam.pos.distanceToSquared(cam.tPos) > 1e-7 || cam.look.distanceToSquared(cam.tLook) > 1e-7) moving = true;
     for (const t of tickers) if (t(dt, U.uTime.value)) moving = true;
-    if (emberMat.uniforms.uAmt.value > 0.01 && animated) moving = true;
+    /* embers/flames are pure shader flicker: when they are the only motion, render every 2nd
+       frame (~30 Hz). uTime still advances each frame, so the animation stays continuous. */
+    if (emberMat.uniforms.uAmt.value > 0.01 && animated && !moving) { emberAlt ^= 1; if (emberAlt && !dirty) return; moving = true; }
     if (!moving && !dirty) return;
     dirty = false;
+    if (shadowDirty) { renderer.shadowMap.needsUpdate = true; shadowDirty = false; }
     camera.position.copy(cam.pos); camera.lookAt(cam.look);
     camera.setViewOffset(W, H, -cam.shift.x * W, -cam.shift.y * H, W, H);
     renderer.render(scene, camera);
@@ -340,7 +347,7 @@ export async function createStage(opt) {
 
   const api = {
     THREE, scene, camera, renderer, U, pizza, board, peel, rim, key, embers, floor, emberMat, parts, cam, pieces,
-    add, clear, pick, invalidate, reduced,
+    add, clear, pick, invalidate, flagShadows() { shadowDirty = true; }, reduced,
     set(state) { for (const k in state) if (U[k]) U[k].value = state[k]; invalidate(); },
     setScrub(kind, a) { for (const p of pieces) if (p.kind === kind) { p.a = p.target = a; p.delay = 0; } updateMatrices(); invalidate(); },
     view(pos, look, shift, instant) { cam.tPos.set(...pos); cam.tLook.set(...look); if (shift) { cam.tShift.x = shift[0]; cam.tShift.y = shift[1]; }
