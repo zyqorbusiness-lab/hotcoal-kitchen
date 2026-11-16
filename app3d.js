@@ -123,10 +123,20 @@ else {
       view([0, 3.1, 2.3], [0, 0, 0], [0.22, phone ? -0.3 : -0.22], instant);
     }
   }
+  let shSpin = null, shBoard = null, shZ = null, shBoardZ = null;
   st.tick((dt) => {
     let moving = false;
     if ((mode === 'hero' || mode === 'make') && !drag && !reduced) { spin += spinV * dt * (mode === 'hero' ? 1 : 0.25); moving = mode === 'hero'; }
     st.pizza.rotation.y = spin; st.board.rotation.y = boardRot + spin * (mode === 'fire' ? 0 : 0.15);
+    /* shadow cache invalidation: the pizza and board are shadow casters whose transforms
+       change without touching the pieces - hero spin/drag, the story board turn, the fire
+       slide-in - so flag the shadow map whenever those transforms actually move. Idle
+       frames (no caster motion) keep the cached map. */
+    const br = st.board.rotation.y, pz = st.pizza.position.z;
+    if (spin !== shSpin || br !== shBoard || pz !== shZ || st.board.position.z !== shBoardZ) {
+      st.flagShadows(); moving = true;
+      shSpin = spin; shBoard = br; shZ = pz; shBoardZ = st.board.position.z;
+    }
     return moving;
   });
   /* hero: drag to turn */
