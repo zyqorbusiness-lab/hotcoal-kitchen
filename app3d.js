@@ -120,7 +120,7 @@ else {
       setMode('make'); boardRot = Math.PI + 0.6;
       st.pizza.position.z = 0; st.board.position.z = 0; st.rim.intensity = 3;
       st.set({ uBall: 0, uSauce: 1, uCheese: 1, uMelt: 0.55 + 0.45 * makeBake, uBake: makeBake, uHeat: makeHeat });
-      view([0, 3.1, 2.3], [0, 0, 0], [0.22, -0.22], instant);
+      view([0, 3.1, 2.3], [0, 0, 0], [0.22, phone ? -0.3 : -0.22], instant);
     }
   }
   st.tick((dt) => {
