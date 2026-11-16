@@ -97,25 +97,24 @@ main{position:relative;z-index:1}
   .steps .body,.fire-copy .body{font-size:.92rem;margin-top:8px}
   .bar{margin-top:14px}
   .clk{margin-top:10px}.clk b{font-size:3.2rem}
-  .make{display:block;padding:calc(39svh) 12px 16px;min-height:100svh}
-  .make-copy{max-height:calc(61svh - 28px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .make{display:block;padding:calc(37svh) 12px 16px;min-height:100svh}
+  /* the card is a flex column: the ticket stays in flow at the card's bottom edge (always
+     visible, never overlapping), and only the ingredient grid absorbs any shortage by
+     scrolling - so no state (cleared, 8 toppings, fired) can hide chips behind the ticket. */
+  .make-copy{display:flex;flex-direction:column;max-height:calc(63svh - 28px)}
   .make-copy{width:100%;padding:14px 18px;border-radius:22px}
   .make-copy .d-l{font-size:1.45rem;margin:.3rem 0}
   .make-copy .tag{margin-bottom:.1rem}
   .m-help{font-size:.85rem;margin:.3rem 0 .5rem}
   .presets{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-18px;padding:0 18px 4px}.presets::-webkit-scrollbar{display:none}
   .preset{flex:0 0 auto;min-height:38px;padding:5px 12px}
-  .chips3{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:.45rem}
+  .chips3{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin-top:.45rem;flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:4px}
   .chip3{padding:5px 2px;font-size:.66rem;border-radius:12px}.chip3 img{width:30px;height:30px}
   .t-btns .btn{flex:1;min-height:44px}
-  .ticket3{margin-top:10px;padding-top:12px}
+  .ticket3{flex:0 0 auto;margin:10px -18px -14px;padding:12px 18px 14px;background:rgba(244,237,225,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:0 0 22px 22px}
   .ticket3 .t-tot b{font-size:1.5rem}
-  .ticket3 .t-list{margin:4px 0 8px;font-size:.85rem}
+  .ticket3 .t-list{margin:4px 0 6px;font-size:.82rem;line-height:1.35}
   .ticket3 .t-btns{margin-top:10px}
-  /* keep the order controls reachable: the ticket (total, Fire it, Clear) sticks to the
-     panel's bottom edge while the ingredient list scrolls behind it; at full scroll it
-     sits in its natural place. Same content, same behavior. */
-  .ticket3{position:sticky;bottom:-20px;margin:18px -18px -20px;padding:16px 18px 20px;background:rgba(244,237,225,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:0 0 22px 22px}
   .real-grid{grid-template-columns:1fr;gap:14px}
   .visit{display:flex;flex-direction:column;gap:48px;padding:var(--rhythm) var(--side)}
   .v-form,.v-info{grid-column:auto}
