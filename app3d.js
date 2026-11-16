@@ -47,7 +47,17 @@ else {
       if (al < 0.999) window.__guard.hits++;
     }
   }
-  st.tick(() => { guardText(); return false; });
+  /* scroll perf: guardText does layout reads (getBoundingClientRect), so do not run it on
+     idle frames. Run on scroll/camera motion only, capped at every 2nd frame (~30 Hz);
+     the CSS opacity fade smooths the steps. At rest it costs nothing. */
+  let gLastY = -1, gLastCam = null, gAlt = 0;
+  st.tick(() => {
+    const moved = scrollY !== gLastY || !gLastCam || st.camera.position.distanceToSquared(gLastCam) > 1e-8;
+    if (!moved) return false;
+    gAlt ^= 1; if (gAlt) return false;
+    gLastY = scrollY; gLastCam = (gLastCam || new st.THREE.Vector3()).copy(st.camera.position);
+    guardText(); return false;
+  });
   let mode = ''; let boardRot = Math.PI + 0.6; let userSet = []; let makeBake = 0, makeHeat = 0; let spin = 0, spinV = reduced ? 0 : 0.18, drag = null;
   function useStory() { st.clear(); STORY.forEach(([k, , , n]) => st.add(k, n, { instant: true })); }
   function useUser() { st.clear(); for (const u of userSet) st.add(u.kind, u.n, { instant: true, at: u.at }); }
