@@ -74,6 +74,13 @@ main{position:relative;z-index:1}
 .visit{background:var(--flour)}
 .stage.no-gl .stage-c{display:none}.stage.no-gl .stage-poster{opacity:1}
 @media (prefers-reduced-motion: reduce){.steps li{transition:none}.dot{animation:none}.stage-c{transition:none}}
+/* mid-width desktops (861-1400): keep hero copy clear of the peel rim - the paragraph
+   ended right against the board at 1280. Slightly narrower lead + heading scale here;
+   >=1400 keeps the approved wider look, phones use the block below. */
+@media (min-width:861px) and (max-width:1400px){
+  .hero3 .d-xl{font-size:clamp(2.6rem,4.0vw,4.6rem)}
+  .hero3 .lead{max-width:30ch}
+}
 @media (max-width:860px){
   :root{--side:20px;--rhythm:64px}
   .nav{height:60px;gap:10px}.nav-links{display:none}.nav-cta{margin-left:auto;min-height:44px;padding:0 16px;font-size:.9rem}.logo{font-size:1.2rem}
