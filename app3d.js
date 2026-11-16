@@ -37,6 +37,14 @@ else {
     else for (let i = 0; i < 24; i++) { const an = (i / 24) * Math.PI * 2;
       for (const h of [0, 0.14]) { gv.set(gw.x + Math.cos(an) * 0.86, gw.y + h, gw.z + Math.sin(an) * 0.86).project(cam); if (gv.z > 1 || gv.z < -1) continue;
         const sx = (gv.x + 1) * 0.5 * W, sy = (1 - gv.y) * 0.5 * Hh; x0 = Math.min(x0, sx); x1 = Math.max(x1, sx); y0 = Math.min(y0, sy); y1 = Math.max(y1, sy); } }
+    /* the wooden peel (radius 1.18) extends past the pizza disc (0.86): its lower rim must
+       also push copy away, otherwise the board edge crosses a text line before the fade
+       triggers (seen in a Nov 16 live motion frame). Extend only the guarded BOTTOM (y1)
+       with the peel rim, so desktop rest layout/fade behaviour is unchanged. */
+    if (x1 > x0) { st.board.updateMatrixWorld();
+      for (let i = 0; i < 12; i++) { const an = (i / 12) * Math.PI * 2;
+        gv.set(Math.cos(an) * 1.18, 0.06, Math.sin(an) * 1.18).applyMatrix4(st.board.matrixWorld).project(cam);
+        if (gv.z > 1 || gv.z < -1) continue; const sy = (1 - gv.y) * 0.5 * Hh; if (sy > y1) y1 = sy; } }
     window.__guard.box = [x0, y0, x1, y1].map(Math.round); const pad = 14;
     for (const el of GUARD) {
       const r = el.getBoundingClientRect(); let al = 1;
